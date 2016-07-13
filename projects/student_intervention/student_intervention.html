@@ -326,7 +326,7 @@ Name: passed, dtype: object
 <span class="n">n_students</span> <span class="o">=</span> <span class="n">student_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
 <span class="c1"># TODO: Calculate number of features</span>
-<span class="n">n_features</span> <span class="o">=</span> <span class="n">student_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">n_features</span> <span class="o">=</span> <span class="n">student_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
 
 <span class="c1"># TODO: Calculate passing students</span>
 <span class="n">n_passed</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">student_data</span><span class="p">[</span><span class="s1">&#39;passed&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;yes&#39;</span><span class="p">)</span>
@@ -342,7 +342,7 @@ Name: passed, dtype: object
 <span class="k">print</span> <span class="s2">&quot;Number of features: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_features</span><span class="p">)</span>
 <span class="k">print</span> <span class="s2">&quot;Number of students who passed: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_passed</span><span class="p">)</span>
 <span class="k">print</span> <span class="s2">&quot;Number of students who failed: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_failed</span><span class="p">)</span>
-<span class="k">print</span> <span class="s2">&quot;Graduation rate of the class: {:.2f}%&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">grad_rate</span><span class="p">)</span>
+<span class="k">print</span> <span class="s2">&quot;Graduation rate of the class: {:.2f}%&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">grad_rate</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -356,10 +356,10 @@ Name: passed, dtype: object
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Total number of students: 395
-Number of features: 31
+Number of features: 30
 Number of students who passed: 265
 Number of students who failed: 130
-Graduation rate of the class: 0.67%
+Graduation rate of the class: 67.09%
 </pre>
 </div>
 </div>
@@ -713,7 +713,7 @@ Feature values:
 <span class="n">X_test</span> <span class="o">=</span> <span class="bp">None</span>
 <span class="n">y_train</span> <span class="o">=</span> <span class="bp">None</span>
 <span class="n">y_test</span> <span class="o">=</span> <span class="bp">None</span>
-<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X_all</span><span class="p">,</span> <span class="n">y_all</span><span class="p">,</span> <span class="n">train_size</span><span class="o">=</span><span class="n">num_train</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X_all</span><span class="p">,</span> <span class="n">y_all</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y_all</span><span class="p">,</span> <span class="n">train_size</span><span class="o">=</span><span class="n">num_train</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 
 <span class="c1"># Show the results of the split</span>
 <span class="k">print</span> <span class="s2">&quot;Training set has {} samples.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -766,9 +766,9 @@ Testing set has 95 samples.
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong> Nearest Neighbors, Decision Trees, SVC</p>
-<p>Nearest Neighbors - given the rather small number of training examples, nearest neighbors is an algorithm that can . One drawback is that nearest neighbors is a type of non-generalizing learning, so that the model will not generalize well to different student data.</p>
-<p>Decision Trees - learns simple decision rules from the data. Strengths of decision trees is that they are simple to understand and interpret, and requires very little feature engineering. A weakness of decision trees is that they can be prone to overfitting.</p>
-<p>Support Vector Classifier - learns a decision hyperplane that maximizes separability of classes. The strengths of support vector machines are that they are effective in high dimensional spaces (we have 10 dims here). A weakness is that SVMs do not provide probability estimates, which may be useful in identifying borderline cases.</p>
+<p>Nearest Neighbors - given the rather small number of training examples, nearest neighbors is an algorithm that searches the training space for points that are closest in distance to the new point, and predict a label from these values. One drawback is that nearest neighbors is a type of non-generalizing learning, so that the model will not generalize well to different student data. Additionally, it is a lazy learner, which means generalization does not occur during learning, but when a prediction needs to be made. Therefore, it requires more memory on prediction than an eager learner as it has to search the entire training space.</p>
+<p>Decision Trees - learns simple decision rules from the data. Strengths of decision trees is that they are simple to understand and interpret, typically requires memory than nearest neighbors, and requires very little feature engineering. A weakness of decision trees is that they can be prone to overfitting so they may not generalize well.</p>
+<p>Support Vector Classifier - learns a decision hyperplane that maximizes separability of classes. The strengths of support vector machines are that they are effective in high dimensional spaces. A weakness is that SVMs do not provide probability estimates, which may be useful in identifying borderline cases.</p>
 
 </div>
 </div>
@@ -880,27 +880,33 @@ Testing set has 95 samples.
 <span class="n">clf_C</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">()</span>
 
 <span class="c1"># TODO: Set up the training set sizes</span>
+<span class="c1"># I do this below by taking the first n elements of X_train and y_train</span>
 <span class="n">X_train_100</span> <span class="o">=</span> <span class="bp">None</span>
 <span class="n">y_train_100</span> <span class="o">=</span> <span class="bp">None</span>
 <span class="n">num_train</span><span class="o">=</span><span class="mi">100</span>
-<span class="n">X_train_100</span><span class="p">,</span> <span class="n">X_test_100</span><span class="p">,</span> <span class="n">y_train_100</span><span class="p">,</span> <span class="n">y_test_100</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X_all</span><span class="p">,</span> <span class="n">y_all</span><span class="p">,</span> <span class="n">train_size</span><span class="o">=</span><span class="n">num_train</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="c1">#X_train_100, X_test_100, y_train_100, y_test_100 = train_test_split(X_all, y_all, train_size=num_train, random_state=42)</span>
 
 <span class="n">X_train_200</span> <span class="o">=</span> <span class="bp">None</span>
 <span class="n">y_train_200</span> <span class="o">=</span> <span class="bp">None</span>
 <span class="n">num_train</span><span class="o">=</span><span class="mi">200</span>
-<span class="n">X_train_200</span><span class="p">,</span> <span class="n">X_test_200</span><span class="p">,</span> <span class="n">y_train_200</span><span class="p">,</span> <span class="n">y_test_200</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X_all</span><span class="p">,</span> <span class="n">y_all</span><span class="p">,</span> <span class="n">train_size</span><span class="o">=</span><span class="n">num_train</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="c1">#X_train_200, X_test_200, y_train_200, y_test_200 = train_test_split(X_all, y_all, train_size=num_train, random_state=42)</span>
 
 <span class="n">X_train_300</span> <span class="o">=</span> <span class="bp">None</span>
 <span class="n">y_train_300</span> <span class="o">=</span> <span class="bp">None</span>
 <span class="n">num_train</span><span class="o">=</span><span class="mi">300</span>
-<span class="n">X_train_300</span><span class="p">,</span> <span class="n">X_test_300</span><span class="p">,</span> <span class="n">y_train_300</span><span class="p">,</span> <span class="n">y_test_300</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X_all</span><span class="p">,</span> <span class="n">y_all</span><span class="p">,</span> <span class="n">train_size</span><span class="o">=</span><span class="n">num_train</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="c1">#X_train_300, X_test_300, y_train_300, y_test_300 = train_test_split(X_all, y_all, train_size=num_train, random_state=42)</span>
 
 <span class="c1"># TODO: Execute the &#39;train_predict&#39; function for each classifier and each training set size</span>
-<span class="k">for</span> <span class="n">num_train</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">300</span><span class="p">]:</span>
-    <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X_all</span><span class="p">,</span> <span class="n">y_all</span><span class="p">,</span> <span class="n">train_size</span><span class="o">=</span><span class="n">num_train</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-    <span class="n">train_predict</span><span class="p">(</span><span class="n">clf_A</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
-    <span class="n">train_predict</span><span class="p">(</span><span class="n">clf_B</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
-    <span class="n">train_predict</span><span class="p">(</span><span class="n">clf_C</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>    
+<span class="k">for</span> <span class="n">clf</span> <span class="ow">in</span> <span class="p">[</span><span class="n">clf_A</span><span class="p">,</span> <span class="n">clf_B</span><span class="p">,</span> <span class="n">clf_C</span><span class="p">]:</span>
+    <span class="k">print</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">{}: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">clf</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">300</span><span class="p">]:</span>
+        <span class="n">train_predict</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">X_train</span><span class="p">[:</span><span class="n">n</span><span class="p">],</span> <span class="n">y_train</span><span class="p">[:</span><span class="n">n</span><span class="p">],</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+    
+<span class="c1">#for num_train in [100,200,300]:</span>
+<span class="c1">#    X_train, X_test, y_train, y_test = train_test_split(X_all, y_all, train_size=num_train, random_state=42)</span>
+<span class="c1">#   train_predict(clf_A, X_train, y_train, X_test, y_test)</span>
+<span class="c1">#   train_predict(clf_B, X_train, y_train, X_test, y_test)</span>
+<span class="c1">#   train_predict(clf_C, X_train, y_train, X_test, y_test)    </span>
 </pre></div>
 
 </div>
@@ -913,60 +919,69 @@ Testing set has 95 samples.
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Training a DecisionTreeClassifier using a training set size of 100. . .
-Trained model in 0.0010 seconds
-Made predictions in 0.0000 seconds.
+<pre>
+DecisionTreeClassifier: 
+
+Training a DecisionTreeClassifier using a training set size of 100. . .
+Trained model in 0.0000 seconds
+Made predictions in 0.0010 seconds.
 F1 score for training set: 1.0000.
 Made predictions in 0.0000 seconds.
-F1 score for test set: 0.6545.
-Training a SVC using a training set size of 100. . .
-Trained model in 0.0010 seconds
-Made predictions in 0.0010 seconds.
-F1 score for training set: 0.8481.
-Made predictions in 0.0030 seconds.
-F1 score for test set: 0.8115.
-Training a KNeighborsClassifier using a training set size of 100. . .
-Trained model in 0.0010 seconds
-Made predictions in 0.0020 seconds.
-F1 score for training set: 0.8322.
-Made predictions in 0.0040 seconds.
-F1 score for test set: 0.7800.
+F1 score for test set: 0.6452.
 Training a DecisionTreeClassifier using a training set size of 200. . .
-Trained model in 0.0020 seconds
+Trained model in 0.0010 seconds
 Made predictions in 0.0000 seconds.
 F1 score for training set: 1.0000.
-Made predictions in 0.0010 seconds.
-F1 score for test set: 0.7252.
-Training a SVC using a training set size of 200. . .
-Trained model in 0.0040 seconds
-Made predictions in 0.0020 seconds.
-F1 score for training set: 0.8868.
-Made predictions in 0.0020 seconds.
-F1 score for test set: 0.8013.
-Training a KNeighborsClassifier using a training set size of 200. . .
-Trained model in 0.0010 seconds
-Made predictions in 0.0030 seconds.
-F1 score for training set: 0.8882.
-Made predictions in 0.0030 seconds.
-F1 score for test set: 0.7847.
+Made predictions in 0.0000 seconds.
+F1 score for test set: 0.7258.
 Training a DecisionTreeClassifier using a training set size of 300. . .
 Trained model in 0.0030 seconds
 Made predictions in 0.0000 seconds.
 F1 score for training set: 1.0000.
 Made predictions in 0.0000 seconds.
-F1 score for test set: 0.6613.
-Training a SVC using a training set size of 300. . .
-Trained model in 0.0080 seconds
-Made predictions in 0.0060 seconds.
-F1 score for training set: 0.8761.
+F1 score for test set: 0.6838.
+
+SVC: 
+
+Training a SVC using a training set size of 100. . .
+Trained model in 0.0020 seconds
 Made predictions in 0.0020 seconds.
-F1 score for test set: 0.7838.
-Training a KNeighborsClassifier using a training set size of 300. . .
-Trained model in 0.0010 seconds
-Made predictions in 0.0060 seconds.
-F1 score for training set: 0.8809.
+F1 score for training set: 0.8354.
+Made predictions in 0.0010 seconds.
+F1 score for test set: 0.8025.
+Training a SVC using a training set size of 200. . .
+Trained model in 0.0050 seconds
+Made predictions in 0.0040 seconds.
+F1 score for training set: 0.8431.
+Made predictions in 0.0010 seconds.
+F1 score for test set: 0.8105.
+Training a SVC using a training set size of 300. . .
+Trained model in 0.0090 seconds
+Made predictions in 0.0050 seconds.
+F1 score for training set: 0.8664.
+Made predictions in 0.0020 seconds.
+F1 score for test set: 0.8052.
+
+KNeighborsClassifier: 
+
+Training a KNeighborsClassifier using a training set size of 100. . .
+Trained model in 0.0000 seconds
 Made predictions in 0.0030 seconds.
-F1 score for test set: 0.7801.
+F1 score for training set: 0.8252.
+Made predictions in 0.0010 seconds.
+F1 score for test set: 0.7586.
+Training a KNeighborsClassifier using a training set size of 200. . .
+Trained model in 0.0010 seconds
+Made predictions in 0.0030 seconds.
+F1 score for training set: 0.8097.
+Made predictions in 0.0020 seconds.
+F1 score for test set: 0.7857.
+Training a KNeighborsClassifier using a training set size of 300. . .
+Trained model in 0.0000 seconds
+Made predictions in 0.0070 seconds.
+F1 score for training set: 0.8539.
+Made predictions in 0.0040 seconds.
+F1 score for test set: 0.8138.
 </pre>
 </div>
 </div>
@@ -1006,21 +1021,21 @@ F1 score for test set: 0.7801.
 <td style="text-align:center">.002</td>
 <td style="text-align:center">.0000</td>
 <td style="text-align:center">1.0</td>
-<td style="text-align:center">.6545</td>
+<td style="text-align:center">.6452</td>
 </tr>
 <tr>
 <td style="text-align:center">200</td>
 <td style="text-align:center">.002</td>
 <td style="text-align:center">.0000</td>
 <td style="text-align:center">1.0</td>
-<td style="text-align:center">.7252</td>
+<td style="text-align:center">.7258</td>
 </tr>
 <tr>
 <td style="text-align:center">300</td>
 <td style="text-align:center">.002</td>
-<td style="text-align:center">.0010</td>
+<td style="text-align:center">.0000</td>
 <td style="text-align:center">1.0</td>
-<td style="text-align:center">.6613</td>
+<td style="text-align:center">.6838</td>
 </tr>
 </tbody>
 </table>
@@ -1039,22 +1054,22 @@ F1 score for test set: 0.7801.
 <td style="text-align:center">100</td>
 <td style="text-align:center">.002</td>
 <td style="text-align:center">.001</td>
-<td style="text-align:center">.8481</td>
-<td style="text-align:center">.8115</td>
+<td style="text-align:center">.8354</td>
+<td style="text-align:center">.8025</td>
 </tr>
 <tr>
 <td style="text-align:center">200</td>
-<td style="text-align:center">.006</td>
 <td style="text-align:center">.004</td>
-<td style="text-align:center">.8868</td>
-<td style="text-align:center">.8013</td>
+<td style="text-align:center">.002</td>
+<td style="text-align:center">.8431</td>
+<td style="text-align:center">.8105</td>
 </tr>
 <tr>
 <td style="text-align:center">300</td>
-<td style="text-align:center">.009</td>
-<td style="text-align:center">.006</td>
-<td style="text-align:center">.8761</td>
-<td style="text-align:center">.7838</td>
+<td style="text-align:center">.007</td>
+<td style="text-align:center">.003</td>
+<td style="text-align:center">.8664</td>
+<td style="text-align:center">.8052</td>
 </tr>
 </tbody>
 </table>
@@ -1071,24 +1086,24 @@ F1 score for test set: 0.7801.
 <tbody>
 <tr>
 <td style="text-align:center">100</td>
+<td style="text-align:center">.004</td>
 <td style="text-align:center">.001</td>
-<td style="text-align:center">.003</td>
-<td style="text-align:center">.8322</td>
-<td style="text-align:center">.7800</td>
+<td style="text-align:center">.8252</td>
+<td style="text-align:center">.7586</td>
 </tr>
 <tr>
 <td style="text-align:center">200</td>
 <td style="text-align:center">.001</td>
-<td style="text-align:center">.004</td>
-<td style="text-align:center">.8882</td>
-<td style="text-align:center">.7847</td>
+<td style="text-align:center">.002</td>
+<td style="text-align:center">.8097</td>
+<td style="text-align:center">.7857</td>
 </tr>
 <tr>
 <td style="text-align:center">300</td>
-<td style="text-align:center">.001</td>
-<td style="text-align:center">.008</td>
-<td style="text-align:center">.8809</td>
-<td style="text-align:center">.7801</td>
+<td style="text-align:center">.000</td>
+<td style="text-align:center">.006</td>
+<td style="text-align:center">.8539</td>
+<td style="text-align:center">.8138</td>
 </tr>
 </tbody>
 </table>
@@ -1141,7 +1156,7 @@ F1 score for test set: 0.7801.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer: </strong> I chose to use the Support Vector Classifier (SVC) model. This model had the highest F1-score on the test data when training with 300 samples.  An SVC finds a hyperplane that separates data of two classes. The algorithm maximizes the margin, which is the distance between the hyperplane and the nearest point in either of the two classes.</p>
+<p><strong>Answer: </strong> I chose to use the Support Vector Classifier (SVC) model. This model had the highest F1-score on the test data when training with 300 samples.  An SVC finds a hyperplane that separates data of two classes. The algorithm maximizes the margin, which is the distance between the hyperplane and the nearest point in either of the two classes. It makes a prediction based on which side of the margin the new point lies.</p>
 
 </div>
 </div>
@@ -1188,7 +1203,7 @@ F1 score for test set: 0.7801.
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>no
+<pre>yes
 </pre>
 </div>
 </div>
@@ -1208,23 +1223,29 @@ F1 score for test set: 0.7801.
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">fbeta_score</span>
 
 <span class="n">num_train</span> <span class="o">=</span> <span class="mi">300</span>
-<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X_all</span><span class="p">,</span> <span class="n">y_all</span><span class="p">,</span> <span class="n">train_size</span><span class="o">=</span><span class="n">num_train</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="c1">#X_train, X_test, y_train, y_test = train_test_split(X_all, y_all, train_size=num_train, random_state=42)</span>
 
 
 <span class="c1"># TODO: Create the parameters list you wish to tune</span>
-<span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;kernel&#39;</span><span class="p">:[</span><span class="s1">&#39;rbf&#39;</span><span class="p">,</span><span class="s1">&#39;poly&#39;</span><span class="p">,</span><span class="s1">&#39;sigmoid&#39;</span><span class="p">],</span><span class="s1">&#39;degree&#39;</span><span class="p">:[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span><span class="s1">&#39;coef0&#39;</span><span class="p">:[</span><span class="mi">0</span><span class="p">,</span><span class="o">.</span><span class="mi">5</span><span class="p">],</span><span class="s1">&#39;C&#39;</span><span class="p">:[</span><span class="mf">1.0</span><span class="p">,</span><span class="o">.</span><span class="mi">95</span><span class="p">,</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span><span class="o">.</span><span class="mi">8</span><span class="p">],</span><span class="s1">&#39;tol&#39;</span><span class="p">:[</span><span class="o">.</span><span class="mo">001</span><span class="p">,</span><span class="o">.</span><span class="mo">01</span><span class="p">]}</span>
-<span class="c1">#parameters = {&#39;kernel&#39;:[&#39;rbf&#39;,&#39;poly&#39;]}</span>
+<span class="n">sv_parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;kernel&#39;</span><span class="p">:[</span><span class="s1">&#39;rbf&#39;</span><span class="p">,</span><span class="s1">&#39;poly&#39;</span><span class="p">,</span><span class="s1">&#39;sigmoid&#39;</span><span class="p">],</span><span class="s1">&#39;degree&#39;</span><span class="p">:[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span><span class="s1">&#39;coef0&#39;</span><span class="p">:[</span><span class="mi">0</span><span class="p">,</span><span class="o">.</span><span class="mi">5</span><span class="p">],</span><span class="s1">&#39;C&#39;</span><span class="p">:[</span><span class="mf">1.0</span><span class="p">,</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span><span class="o">.</span><span class="mi">8</span><span class="p">],</span><span class="s1">&#39;tol&#39;</span><span class="p">:[</span><span class="o">.</span><span class="mo">001</span><span class="p">,</span><span class="o">.</span><span class="mo">01</span><span class="p">,</span><span class="o">.</span><span class="mi">1</span><span class="p">]}</span>
 <span class="c1"># TODO: Initialize the classifier</span>
-<span class="c1">#clf = SVC()</span>
 <span class="n">clf</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+
+<span class="c1"># TODO: Create the parameters list you wish to tune</span>
+<span class="c1">#dt_parameters = {&#39;min_samples_split&#39;:[2,3,4,5,6],&#39;max_depth&#39;:[3,4,5,6,7]}</span>
+<span class="c1"># TODO: Initialize the classifier</span>
+<span class="c1">#clf = DecisionTreeClassifier(random_state=42)</span>
+
 <span class="c1"># TODO: Make an f1 scoring function using &#39;make_scorer&#39; </span>
-<span class="k">def</span> <span class="nf">performance_metric</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_predict</span><span class="p">):</span>
-    <span class="n">score</span> <span class="o">=</span> <span class="n">f1_score</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span><span class="n">y_predict</span><span class="p">,</span> <span class="n">pos_label</span><span class="o">=</span><span class="s1">&#39;yes&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">score</span>
-<span class="n">scoring_fnc</span> <span class="o">=</span> <span class="n">make_scorer</span><span class="p">(</span><span class="n">performance_metric</span><span class="p">)</span>
+<span class="c1">#def performance_metric(y_true, y_predict):</span>
+<span class="c1">#    score = f1_score(y_true,y_predict, pos_label=&#39;yes&#39;)</span>
+<span class="c1">#    return score</span>
+<span class="c1">#scoring_fnc = make_scorer(performance_metric)</span>
+<span class="n">f1_scorer</span> <span class="o">=</span> <span class="n">make_scorer</span><span class="p">(</span><span class="n">f1_score</span><span class="p">,</span> <span class="n">pos_label</span><span class="o">=</span><span class="s2">&quot;yes&quot;</span><span class="p">)</span>
 
 <span class="c1"># TODO: Perform grid search on the classifier using the f1_scorer as the scoring method</span>
-<span class="n">grid_obj</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span><span class="n">param_grid</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">,</span><span class="n">scoring</span> <span class="o">=</span> <span class="n">scoring_fnc</span><span class="p">)</span>
+<span class="n">grid_obj</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span><span class="n">param_grid</span> <span class="o">=</span> <span class="n">sv_parameters</span><span class="p">,</span><span class="n">scoring</span> <span class="o">=</span> <span class="n">f1_scorer</span><span class="p">)</span>
 
 <span class="c1"># TODO: Fit the grid search object to the training data and find the optimal parameters</span>
 <span class="n">grid_obj</span> <span class="o">=</span> <span class="n">grid_obj</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
@@ -1248,9 +1269,9 @@ F1 score for test set: 0.7801.
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Made predictions in 0.0060 seconds.
-Tuned model has a training F1 score of 0.8686.
+Tuned model has a training F1 score of 0.8664.
 Made predictions in 0.0020 seconds.
-Tuned model has a testing F1 score of 0.7733.
+Tuned model has a testing F1 score of 0.8052.
 </pre>
 </div>
 </div>
@@ -1277,7 +1298,7 @@ Tuned model has a testing F1 score of 0.7733.
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>{&apos;kernel&apos;: &apos;rbf&apos;, &apos;C&apos;: 0.9, &apos;coef0&apos;: 0, &apos;tol&apos;: 0.001, &apos;degree&apos;: 4}
+<pre>{&apos;kernel&apos;: &apos;rbf&apos;, &apos;C&apos;: 1.0, &apos;coef0&apos;: 0, &apos;tol&apos;: 0.001, &apos;degree&apos;: 4}
 </pre>
 </div>
 </div>
@@ -1301,7 +1322,7 @@ Tuned model has a testing F1 score of 0.7733.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer: </strong> The final model's F1 score for training is .8686, and for testing is .7733. Surprisingly, these values are lower than the untuned model (train F1 = .8761, and test F1 = .7838). This is due to the 'C', the penalty parameter of the error term, being set to .9 in the final model, while the default value is 1.0.</p>
+<p><strong>Answer: </strong> The final model's F1 score for training is .8664, and for testing is .8052. These are the same values derived from the untuned model. The best parameters are the defaults, using an 'rbf' kernel with a penalty parameter ('C') of 1.0, and a tolerance of .001. While some of the parameters tested in the gridsearch had better test scores, they had lower train scores, which is the value that gridsearch uses in deciding the best model parameters.</p>
 
 </div>
 </div>
