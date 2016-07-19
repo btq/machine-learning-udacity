@@ -766,9 +766,36 @@ Testing set has 95 samples.
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong> Nearest Neighbors, Decision Trees, SVC</p>
-<p>Nearest Neighbors - given the rather small number of training examples, nearest neighbors is an algorithm that searches the training space for points that are closest in distance to the new point, and predict a label from these values. One drawback is that nearest neighbors is a type of non-generalizing learning, so that the model will not generalize well to different student data. Additionally, it is a lazy learner, which means generalization does not occur during learning, but when a prediction needs to be made. Therefore, it requires more memory on prediction than an eager learner as it has to search the entire training space.</p>
-<p>Decision Trees - learns simple decision rules from the data. Strengths of decision trees is that they are simple to understand and interpret, typically requires memory than nearest neighbors, and requires very little feature engineering. A weakness of decision trees is that they can be prone to overfitting so they may not generalize well.</p>
-<p>Support Vector Classifier - learns a decision hyperplane that maximizes separability of classes. The strengths of support vector machines are that they are effective in high dimensional spaces. A weakness is that SVMs do not provide probability estimates, which may be useful in identifying borderline cases.</p>
+<h4 id="Nearest-Neighbors">Nearest Neighbors<a class="anchor-link" href="#Nearest-Neighbors">&#182;</a></h4><ul>
+<li><strong>General Applications</strong>
+nearest neighbors has been successful in classification of handwritten digits or satellite images.</li>
+<li><strong>Strengths</strong>
+Given the rather small number of training examples, nearest neighbors is an algorithm that searches the training space for points that are closest in distance to the new point, and predict a label from these values. There is also no compute cost in training as it is a lazy learner.</li>
+<li><strong>Weaknesses</strong>
+One drawback is that nearest neighbors is a type of non-generalizing learning, so that the model will not generalize well to different student data. Additionally, it is a lazy learner, which means generalization does not occur during learning, but when a prediction needs to be made. Therefore, it requires more memory on prediction than an eager learner as it has to search the entire training space.</li>
+<li><strong>Reason for choosing</strong>
+For our given dataset, memory will not be an issue for this model. It can also yield the previous students who a most like a given student, which may be empirically valuable to educators. Additionally, if the decision boundary is very irregular, nearest neighbors can be successful in classification because it is non-parametric.</li>
+</ul>
+<h4 id="Decision-Trees">Decision Trees<a class="anchor-link" href="#Decision-Trees">&#182;</a></h4><ul>
+<li><strong>General Applications</strong>
+Decision trees learns simple decision rules from data. They have been used in medical diagnosis and weather prediction.</li>
+<li><strong>Strengths</strong>
+Strengths of decision trees is that they are simple to understand and interpret, typically requires less memory than nearest neighbors, and requires very little feature engineering. </li>
+<li><strong>Weaknesses</strong>
+A weakness of decision trees is that they can be prone to overfitting so they may not generalize well.</li>
+<li><strong>Reason for choosing</strong>
+Interpretability is important for intervention. If we can see a student approaching a decision rule threshold, we can take steps to intervene and support them.</li>
+</ul>
+<h4 id="Support-Vector-Classifier">Support Vector Classifier<a class="anchor-link" href="#Support-Vector-Classifier">&#182;</a></h4><ul>
+<li><strong>General Applications</strong>
+Learns a decision hyperplane that maximizes separability of classes. It has been used in biology to classify genes and patients based on gene expression patterns.</li>
+<li><strong>Strengths</strong>
+The strengths of support vector machines are that they are effective in high dimensional spaces, even when number of features is greater than samples. Also, they are memory efficient and versatile (using custom kernels).</li>
+<li><strong>Weaknesses</strong>
+ A weakness is that SVMs do not provide probability estimates, which may be useful in identifying borderline cases. If the number of features is much greater than the number of samples, SVC may not work well.</li>
+<li><strong>Reason for choosing</strong>
+ While there is computation cost in training, there is a reduced memory footprint required for predictions as the support vectors are the only data points that need to remain in memory. Therefore there is an increase in computation from decision trees, but more memory efficient than nearest neighbors.</li>
+</ul>
 
 </div>
 </div>
@@ -873,12 +900,13 @@ Testing set has 95 samples.
 <span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
 <span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span>
 <span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+<span class="c1">#from sklearn.naive_bayes import GaussianNB</span>
 
 <span class="c1"># TODO: Initialize the three models</span>
 <span class="n">clf_A</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 <span class="n">clf_B</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 <span class="n">clf_C</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">()</span>
-
+<span class="c1">#clf_D = GaussianNB()</span>
 <span class="c1"># TODO: Set up the training set sizes</span>
 <span class="c1"># I do this below by taking the first n elements of X_train and y_train</span>
 <span class="n">X_train_100</span> <span class="o">=</span> <span class="bp">None</span>
@@ -923,19 +951,19 @@ Testing set has 95 samples.
 DecisionTreeClassifier: 
 
 Training a DecisionTreeClassifier using a training set size of 100. . .
-Trained model in 0.0000 seconds
-Made predictions in 0.0010 seconds.
-F1 score for training set: 1.0000.
+Trained model in 0.0010 seconds
 Made predictions in 0.0000 seconds.
+F1 score for training set: 1.0000.
+Made predictions in 0.0010 seconds.
 F1 score for test set: 0.6452.
 Training a DecisionTreeClassifier using a training set size of 200. . .
 Trained model in 0.0010 seconds
-Made predictions in 0.0000 seconds.
+Made predictions in 0.0010 seconds.
 F1 score for training set: 1.0000.
 Made predictions in 0.0000 seconds.
 F1 score for test set: 0.7258.
 Training a DecisionTreeClassifier using a training set size of 300. . .
-Trained model in 0.0030 seconds
+Trained model in 0.0020 seconds
 Made predictions in 0.0000 seconds.
 F1 score for training set: 1.0000.
 Made predictions in 0.0000 seconds.
@@ -945,19 +973,19 @@ SVC:
 
 Training a SVC using a training set size of 100. . .
 Trained model in 0.0020 seconds
-Made predictions in 0.0020 seconds.
+Made predictions in 0.0000 seconds.
 F1 score for training set: 0.8354.
 Made predictions in 0.0010 seconds.
 F1 score for test set: 0.8025.
 Training a SVC using a training set size of 200. . .
-Trained model in 0.0050 seconds
-Made predictions in 0.0040 seconds.
+Trained model in 0.0040 seconds
+Made predictions in 0.0030 seconds.
 F1 score for training set: 0.8431.
-Made predictions in 0.0010 seconds.
+Made predictions in 0.0020 seconds.
 F1 score for test set: 0.8105.
 Training a SVC using a training set size of 300. . .
-Trained model in 0.0090 seconds
-Made predictions in 0.0050 seconds.
+Trained model in 0.0070 seconds
+Made predictions in 0.0060 seconds.
 F1 score for training set: 0.8664.
 Made predictions in 0.0020 seconds.
 F1 score for test set: 0.8052.
@@ -966,21 +994,21 @@ KNeighborsClassifier:
 
 Training a KNeighborsClassifier using a training set size of 100. . .
 Trained model in 0.0000 seconds
-Made predictions in 0.0030 seconds.
+Made predictions in 0.0020 seconds.
 F1 score for training set: 0.8252.
 Made predictions in 0.0010 seconds.
 F1 score for test set: 0.7586.
 Training a KNeighborsClassifier using a training set size of 200. . .
-Trained model in 0.0010 seconds
+Trained model in 0.0000 seconds
 Made predictions in 0.0030 seconds.
 F1 score for training set: 0.8097.
-Made predictions in 0.0020 seconds.
+Made predictions in 0.0010 seconds.
 F1 score for test set: 0.7857.
 Training a KNeighborsClassifier using a training set size of 300. . .
 Trained model in 0.0000 seconds
-Made predictions in 0.0070 seconds.
+Made predictions in 0.0050 seconds.
 F1 score for training set: 0.8539.
-Made predictions in 0.0040 seconds.
+Made predictions in 0.0020 seconds.
 F1 score for test set: 0.8138.
 </pre>
 </div>
@@ -1214,7 +1242,7 @@ F1 score for test set: 0.8138.
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO: Import &#39;GridSearchCV&#39; and &#39;make_scorer&#39;</span>
@@ -1268,7 +1296,7 @@ F1 score for test set: 0.8138.
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Made predictions in 0.0060 seconds.
+<pre>Made predictions in 0.0050 seconds.
 Tuned model has a training F1 score of 0.8664.
 Made predictions in 0.0020 seconds.
 Tuned model has a testing F1 score of 0.8052.
